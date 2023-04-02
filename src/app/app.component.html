@@ -1,0 +1,66 @@
+
+<p class="titulo">Listado de documentos</p>
+
+
+<mat-form-field style="margin: 20px;">
+  <mat-label>Filtro por Alias</mat-label>
+  <input [formControl]="filtroNombrePersonalizado" matInput>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSourceFiltrado" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="nombrePersonalizado">
+    <th mat-header-cell *matHeaderCellDef>Alias</th>
+    <td mat-cell *matCellDef="let element"> {{element.nombrePersonalizado}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombreReal">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let element"> {{element.nombreReal}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="extension">
+    <th mat-header-cell *matHeaderCellDef>Extensión</th>
+    <td mat-cell *matCellDef="let element"> {{element.extension}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="archivo">
+    <th mat-header-cell *matHeaderCellDef> URL adjunto </th>
+    <td mat-cell *matCellDef="let element">
+      <a target="_blank" href="{{element.archivo}}">Adjunto</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="mimeType">
+    <th mat-header-cell *matHeaderCellDef> Mime Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.mimeType}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="options">
+    <th mat-header-cell *matHeaderCellDef> Opciones </th>
+    <td mat-cell *matCellDef="let element">
+
+      <button mat-button (click)="editarDocumento(element)">Editar</button>
+      <button mat-button (click)="eliminarDocumento(element)">Eliminar</button>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div style="display: flex;">
+  <mat-form-field style="margin: 20px;">
+    <mat-label>Alias del documento</mat-label>
+    <input required [formControl]="nombrePersonalizadoControl" matInput>
+  </mat-form-field>
+  <input
+  style="margin: 20px;"
+  type="file"
+  [multiple]="false"
+  (change)="cargarDocumento($event)"
+  #fileInput>
+</div>
+
+<button style="margin: 20px;" (click)="agregarDocumento(fileInput)" mat-raised-button color="primary">Agregar documento</button>
+ 
